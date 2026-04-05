@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم الحسن والحسين </title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <style>
+        :root {
+            --primary: #e63946;
+            --secondary: #ffbd00;
+            --dark: #121212;
+            --light: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-800: #343a40;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 25px rgba(0,0,0,0.08);
+            --radius-lg: 20px;
+            --radius-sm: 12px;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #fcfcfc; 
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
+
+        /* Header Navigation */
+        .navbar {
+            position: fixed; top: 0; width: 100%; z-index: 2000;
+            padding: 15px 0; background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+        .navbar.scrolled { padding: 8px 0; box-shadow: var(--shadow-md); }
+
+        .container { max-width: 1250px; margin: 0 auto; padding: 0 20px; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .brand-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--secondary); object-fit: cover; }
+        .brand-name { font-weight: 900; font-size: 1.4rem; color: var(--primary); }
+        .brand-name span { color: var(--secondary); }
+
+        .cart-toggle {
+            background: var(--dark); color: white;
+            padding: 8px 20px; border-radius: 50px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; font-weight: 700;
+            transition: var(--transition); border: none; position: relative;
+        }
+        .cart-toggle:hover { transform: translateY(-2px); background: var(--primary); }
+        #cartCount { background: var(--secondary); color: var(--dark); padding: 2px 8px; border-radius: 50%; font-size: 0.8rem; }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 70vh; margin-top: 80px;
+            display: flex; align-items: center;
+            background: radial-gradient(circle at 10%, rgba(255,189,0,0.08) 0%, transparent 50%);
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; }
+        .hero-text h1 { font-size: 3.5rem; line-height: 1.2; font-weight: 900; margin-bottom: 20px; }
+        .hero-text h1 span { color: var(--primary); position: relative; }
+        .hero-text p { font-size: 1.2rem; color: var(--gray-800); margin-bottom: 30px; }
+        
+        .cta-btn {
+            background: var(--primary); color: white; padding: 15px 40px;
+            border-radius: 50px; text-decoration: none; font-weight: 700;
+            display: inline-block; box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+            transition: var(--transition);
+        }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(230, 57, 70, 0.4); }
+
+        .hero-image-container { position: relative; display: flex; justify-content: center; align-items: center; }
+        .hero-blob {
+            width: 380px; height: 380px; background: var(--secondary);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morph 8s linear infinite alternate;
+            opacity: 0.6;
+        }
+        .hero-main-img { position: absolute; width: 320px; height: 320px; border-radius: 50%; border: 8px solid white; box-shadow: var(--shadow-md); object-fit: cover; }
+
+        @keyframes morph {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            100% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+        }
+
+        /* Menu System */
+        .category-scroller {
+            position: sticky; top: 75px; z-index: 1000;
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            padding: 15px 0; border-bottom: 1px solid var(--gray-200);
+        }
+        .category-list { 
+            display: flex; justify-content: center; gap: 10px; overflow-x: auto; 
+            padding: 5px; scrollbar-width: none;
+        }
+        .category-list::-webkit-scrollbar { display: none; }
+        
+        .cat-item {
+            padding: 10px 25px; border-radius: 50px; background: var(--gray-100);
+            border: 1px solid var(--gray-200); cursor: pointer; white-space: nowrap;
+            font-weight: 700; transition: var(--transition); font-size: 0.95rem;
+        }
+        .cat-item.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
+
+        /* Product Cards */
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px; padding: 40px 0;
+            justify-content: center;
+        }
+        .product-card {
+            background: white; border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200); overflow: hidden;
+            transition: var(--transition); display: flex; flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-8px); border-color: var(--secondary); box-shadow: var(--shadow-md); }
+        
+        .product-info { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 15px; color: var(--dark); }
+        
+        .price-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .price-chip {
+            background: var(--gray-100); padding: 10px; border-radius: var(--radius-sm);
+            text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid transparent;
+        }
+        .price-chip:hover { border-color: var(--primary); background: #fff5f5; }
+        .price-chip span:first-child { display: block; font-size: 0.75rem; color: #666; margin-bottom: 2px; }
+        .price-chip span:last-child { display: block; font-weight: 900; color: var(--primary); font-size: 1.1rem; }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed; top: 0; left: -100%; width: 400px; height: 100%;
+            background: white; z-index: 3000; transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex; flex-direction: column;
+        }
+        .cart-sidebar.open { left: 0; box-shadow: 15px 0 50px rgba(0,0,0,0.15); }
+        .cart-header { padding: 25px; background: var(--dark); color: white; display: flex; justify-content: space-between; align-items: center; }
+        
+        .cart-body { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-item {
+            display: flex; align-items: center; gap: 15px; padding: 15px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        .qty-controls {
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            background: var(--gray-100); padding: 8px; border-radius: 10px;
+        }
+        .qty-btn { border: none; background: none; color: var(--primary); font-weight: 900; cursor: pointer; padding: 2px 10px; }
+        .item-details { flex: 1; }
+        .item-details h4 { font-size: 0.95rem; font-weight: 700; }
+        .item-details p { font-size: 0.8rem; color: #777; }
+        .item-price-del { text-align: left; }
+        .delete-item { color: #ccc; cursor: pointer; transition: 0.3s; font-size: 0.9rem; margin-top: 5px; display: block; }
+        .delete-item:hover { color: var(--primary); }
+
+        .cart-footer { padding: 20px; background: var(--gray-100); border-top: 1px solid var(--gray-200); }
+        .input-group { margin-bottom: 12px; }
+        .input-group input, .input-group select {
+            width: 100%; padding: 12px 15px; border-radius: 10px;
+            border: 1px solid var(--gray-200); font-family: inherit; font-size: 0.9rem;
+        }
+        .summary-box { background: white; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+        .total-row { border-top: 2px dashed var(--gray-200); padding-top: 10px; margin-top: 10px; font-weight: 900; font-size: 1.2rem; color: var(--primary); }
+
+        .btn-checkout {
+            width: 100%; padding: 15px; background: #25d366; color: white;
+            border: none; border-radius: 12px; font-weight: 800;
+            font-size: 1.1rem; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; margin-top: 15px; transition: 0.3s;
+        }
+        .btn-checkout:hover { background: #1eb954; transform: scale(1.02); }
+
+        /* Toast & Overlay */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); z-index: 2500; display: none; backdrop-filter: blur(3px);
+        }
+        .overlay.show { display: block; }
+
+        #toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translate(-50%, 150%);
+            background: var(--dark); color: white; padding: 12px 30px;
+            border-radius: 50px; z-index: 4000; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        #toast.show { transform: translate(-50%, 0); }
+
+        /* Footer */
+        .main-footer { background: var(--dark); color: white; padding: 50px 0 20px; text-align: center; }
+        .social-links { display: flex; justify-content: center; gap: 25px; margin: 25px 0; }
+        .social-links a { color: white; font-size: 1.5rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--secondary); transform: translateY(-3px); }
+
+        @media (max-width: 992px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-image-container { order: -1; margin-bottom: 20px; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .cart-sidebar { width: 100%; }
+            .category-list { justify-content: flex-start; padding: 5px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div id="toast">تمت الإضافة بنجاح!</div>
+
+    <nav class="navbar" id="navbar">
+        <div class="container flex-between">
+            <a href="#" class="brand">
+                <img src="493026298_1146579830829589_8988178688763257409_n.jpg" class="brand-img" alt="Logo">
+                <div class="brand-name">الحسن <span>والحسين</span></div>
+            </a>
+            <button class="cart-toggle" onclick="toggleCart()">
+                <i class="fas fa-shopping-basket"></i>
+                <span id="cartCount">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-text" data-aos="fade-up">
+                    <h1>مذاق الأصالة<br>في كل قطعة <span>طعام</span></h1>
+                    <p>استمتع بتجربة طعام فريدة من نوعها مع مطعم الحسن والحسين. جودة تستحقها وطعم لا يُنسى.</p>
+                    <a href="#menu-start" class="cta-btn">تصفح المنيو واطلب الآن</a>
+                </div>
+                <div class="hero-image-container" data-aos="zoom-in">
+                    <div class="hero-blob"></div>
+                    <img src="493026298_1146579830829589_8988178688763257409_n.jpg" class="hero-main-img" alt="Main Dish">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="category-scroller" id="menu-start">
+        <div class="category-list" id="categoryList"></div>
+    </div>
+
+    <main class="container">
+        <div class="products-grid" id="menuContainer"></div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="brand-name" style="font-size: 2rem; margin-bottom: 10px;">الحسن <span>والحسين</span></div>
+            <p style="color: #888;">أفضل وأجود أنواع البيتزا والكريبات في المنطقة</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/201550564197"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p style="font-size: 0.8rem; color: #555; margin-top: 30px;">&copy; 2026 جميع الحقوق محفوظة لمطعم الحسن والحسين</p>
+        </div>
+    </footer>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> قائمة الطلبات</h3>
+            <i class="fas fa-times" style="cursor:pointer; font-size: 1.2rem;" onclick="toggleCart()"></i>
+        </div>
+        
+        <div class="cart-body" id="cartItems"></div>
+
+        <div class="cart-footer">
+            <div class="input-group">
+                <input type="text" id="custName" placeholder="الاسم بالكامل">
+            </div>
+            <div class="input-group">
+                <select id="deliveryLocation" onchange="updateCartUI()">
+                    <option value="0" disabled selected>اختر منطقة التوصيل...</option>
+                    <option value="30">ميت فضالة (30 ج)</option>
+                    <option value="30">الغراقة (30 ج)</option>
+                    <option value="30">شنشا (30 ج)</option>
+                    <option value="30">أخطاب (30 ج)</option>
+                    <option value="30">ميت ابوالحسين (30 ج)</option>
+                    <option value="30">ميت عامل (30 ج)</option>
+                    <option value="30">دروة (30 ج)</option>
+                    <option value="30">برج النور الحمص (30 ج)</option>
+                    <option value="30">سنجيد (30 ج)</option>
+                    <option value="40">عزبة البرعي (40 ج)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <input type="text" id="custAddress" placeholder="العنوان بالتفصيل (الشارع، العلامة المميزة)">
+            </div>
+            <div class="input-group">
+                <input type="tel" id="custPhone" placeholder="رقم الهاتف للتواصل">
+            </div>
+
+            <div class="summary-box">
+                <div class="summary-row">
+                    <span>إجمالي الأصناف:</span>
+                    <div><span id="subTotal">0</span><span> ج.م</span></div>
+                </div>
+                <div class="summary-row">
+                    <span>مصاريف التوصيل:</span>
+                    <div><span id="deliveryCost">0</span><span> ج.م</span></div>
+                </div>
+                <div class="summary-row total-row">
+                    <span>الإجمالي النهائي:</span>
+                    <div><span id="totalPrice">0</span><span> ج.م</span></div>
+                </div>
+            </div>
+
+            <button class="btn-checkout" onclick="sendToWhatsApp()">
+                إتمام الطلب (WhatsApp)
+                <i class="fab fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+     const menuData = {
+            burger: { label: "البرجر", items: [
+                { id: 101, name: "برجر سنجل لحمة", prices: {"150ج + بطاطس": 125} },
+                { id: 102, name: "برجر سنجل فراخ", prices: {"150ج + بطاطس": 125} },
+                { id: 103, name: "برجر دبل لحمة", prices: {"220ج + بطاطس": 175} },
+                { id: 104, name: "برجر دبل فراخ", prices: {"220ج + بطاطس": 175} }
+            ]},
+            syrian: { label: "السوري", items: [
+                { id: 201, name: "سوري تشيز بطاطس", prices: {"عادي": 50} },
+                { id: 202, name: "سوري تشيكن بانيه", prices: {"عادي": 60} },
+                { id: 203, name: "سوري تشيكن كرسبي", prices: {"عادي": 60} },
+                { id: 204, name: "سوري تشيكن رانش", prices: {"عادي": 80} },
+                { id: 205, name: "سوري تشيكن فاهيتا", prices: {"عادي": 80} },
+                { id: 206, name: "سوري استريبس", prices: {"عادي": 80} },
+                { id: 207, name: "سوري كرانشي", prices: {"عادي": 70} },
+                { id: 208, name: "سوري زنجر سوبريم", prices: {"عادي": 70} },
+                { id: 209, name: "سوري شاورما فراخ جريل", prices: {"عادي": 70} },
+                { id: 210, name: "سوري شيش طاووق", prices: {"عادي": 70} },
+                { id: 211, name: "سوري مشكل فراخ", prices: {"عادي": 80} },
+                { id: 212, name: "سوري مشكل لحوم", prices: {"عادي": 80} },
+                { id: 213, name: "سوري مكس الحسن والحسين", prices: {"عادي": 90} },
+                { id: 214, name: "سوري كفتة", prices: {"عادي": 65} },
+                { id: 215, name: "سوري شاورما لحمة", prices: {"عادي": 80} }
+            ]},
+            meals: { label: "الوجبات العربي", items: [
+                { id: 301, name: "شاورما عربي فراخ", prices: {"وجبة": 135} },
+                { id: 302, name: "شاورما عربي لحم", prices: {"وجبة": 140} },
+                { id: 303, name: "وجبة كرانشي - زنجر", prices: {"وجبة": 135} },
+                { id: 304, name: "وجبة بانيه - كرسبي", prices: {"وجبة": 125} },
+                { id: 305, name: "وجبة مكس الحسن والحسين", prices: {"وجبة": 150} }
+            ]},
+            sandwiches: { label: "السندوتشات", items: [
+                { id: 401, name: "ساندوتش تشيكن بانيه", prices: {"L": 65} },
+                { id: 402, name: "ساندوتش تشيكن كرسبي", prices: {"L": 65} },
+                { id: 403, name: "ساندوتش صدور دجاج", prices: {"L": 75} },
+                { id: 404, name: "ساندوتش استريبس", prices: {"L": 80} },
+                { id: 405, name: "ساندوتش كرانشي", prices: {"L": 75} },
+                { id: 406, name: "ساندوتش زنجر سوبريم", prices: {"L": 75} },
+                { id: 407, name: "ساندوتش شاورما فراخ جريل", prices: {"L": 75} },
+                { id: 408, name: "ساندوتش شيش طاووق", prices: {"L": 80} },
+                { id: 409, name: "ساندوتش تشيكن باربيكيو", prices: {"L": 85} },
+                { id: 410, name: "ساندوتش تشيكن رانش", prices: {"L": 85} },
+                { id: 411, name: "ساندوتش كوردن بلو", prices: {"L": 85} },
+                { id: 412, name: "ساندوتش مشكل فراخ", prices: {"L": 90} },
+                { id: 413, name: "ساندوتش شاورما لحم", prices: {"L": 85} },
+                { id: 414, name: "ساندوتش مشكل لحوم", prices: {"L": 95} },
+                { id: 415, name: "ساندوتش كفتة", prices: {"L": 85} },
+                { id: 416, name: "ساندوتش تشيز بطاطس", prices: {"L": 60} }
+            ]},
+            tortilla: { label: "التورتيلا", items: [
+                { id: 501, name: "تورتيلا كرسبي بانيه", prices: {"عادي": 125} },
+                { id: 502, name: "تورتيلا كرانشي", prices: {"عادي": 135} },
+                { id: 503, name: "تورتيلا زنجر", prices: {"عادي": 135} },
+                { id: 504, name: "تورتيلا شاورما فراخ", prices: {"عادي": 135} },
+                { id: 505, name: "تورتيلا شيش طاووق", prices: {"عادي": 140} },
+                { id: 506, name: "تورتيلا مشكل فراخ", prices: {"عادي": 150} },
+                { id: 507, name: "تورتيلا شاورما لحمة", prices: {"عادي": 145} },
+                { id: 508, name: "تورتيلا مشكل لحوم", prices: {"عادي": 150} },
+                { id: 509, name: "تورتيلا كفتة", prices: {"عادي": 135} }
+            ]},
+            pizza: { label: "البيتزا", items: [
+                { id: 601, name: "بيتزا مارجريتا", prices: {"وسط": 95, "كبير": 115} },
+                { id: 602, name: "بيتزا عشاق الجبن", prices: {"وسط": 110, "كبير": 130} },
+                { id: 603, name: "بيتزا شاورما فراخ", prices: {"وسط": 120, "كبير": 140} },
+                { id: 604, name: "بيتزا شيش طاووق فراخ", prices: {"وسط": 120, "كبير": 140} },
+                { id: 605, name: "بيتزا مشكل فراخ", prices: {"وسط": 130, "كبير": 150} },
+                { id: 606, name: "بيتزا تشيكن باربيكيو", prices: {"وسط": 125, "كبير": 145} },
+                { id: 607, name: "بيتزا تشيكن بانيه", prices: {"وسط": 110, "كبير": 130} },
+                { id: 608, name: "بيتزا تشيكن كرسبي", prices: {"وسط": 110, "كبير": 130} },
+                { id: 609, name: "بيتزا كرانشي", prices: {"وسط": 120, "كبير": 140} },
+                { id: 610, name: "بيتزا صدور", prices: {"وسط": 120, "كبير": 140} },
+                { id: 611, name: "بيتزا دجاج سوبريم", prices: {"وسط": 120, "كبير": 140} },
+                { id: 612, name: "بيتزا زنجر سوبريم", prices: {"وسط": 120, "كبير": 140} },
+                { id: 613, name: "بيتزا تشيكن رانش", prices: {"وسط": 130, "كبير": 150} },
+                { id: 614, name: "بيتزا مكس الحسن والحسين (فراخ)", prices: {"وسط": 140, "كبير": 160} },
+                { id: 615, name: "بيتزا زنجر على شيش طاووق", prices: {"وسط": 135, "كبير": 155} },
+                { id: 616, name: "بيتزا كرانشي على شاورما فراخ", prices: {"وسط": 135, "كبير": 155} },
+                { id: 617, name: "بيتزا شاورما لحم", prices: {"وسط": 125, "كبير": 145} },
+                { id: 618, name: "بيتزا مشكل لحوم", prices: {"وسط": 135, "كبير": 155} },
+                { id: 619, name: "بيتزا هوت دوج", prices: {"وسط": 120, "كبير": 135} },
+                { id: 620, name: "بيتزا مفروم", prices: {"وسط": 120, "كبير": 135} },
+                { id: 621, name: "بيتزا بيبيروني", prices: {"وسط": 120, "كبير": 135} },
+                { id: 622, name: "بيتزا كفتة", prices: {"وسط": 120, "كبير": 135} },
+                { id: 623, name: "بيتزا الفصول الأربعة", prices: {"وسط": 145, "كبير": 165} },
+                { id: 624, name: "بيتزا مكس لحوم على فراخ", prices: {"وسط": 145, "كبير": 165} },
+                { id: 625, name: "بيتزا تونة", prices: {"وسط": 125, "كبير": 145} }
+            ]},
+            crepe: { label: "الكريبات", items: [
+                { id: 701, name: "كريب تشيكن بانيه", prices: {"عادي": 90, "كونو": 110} },
+                { id: 702, name: "كريب تشيكن كرسبي", prices: {"عادي": 90, "كونو": 110} },
+                { id: 703, name: "كريب كرانشي", prices: {"عادي": 100, "كونو": 120} },
+                { id: 704, name: "كريب صدور دجاج", prices: {"عادي": 105, "كونو": 125} },
+                { id: 705, name: "كريب استريبس", prices: {"عادي": 105, "كونو": 125} },
+                { id: 706, name: "كريب زنجر سوبريم", prices: {"عادي": 100, "كونو": 120} },
+                { id: 707, name: "كريب شاورما فراخ جريل", prices: {"عادي": 100, "كونو": 120} },
+                { id: 708, name: "كريب شيش طاووق", prices: {"عادي": 105, "كونو": 125} },
+                { id: 709, name: "كريب فاهيتا فراخ", prices: {"عادي": 105, "كونو": 125} },
+                { id: 710, name: "كريب تشيكن باربيكيو", prices: {"عادي": 105, "كونو": 125} },
+                { id: 711, name: "كريب مشكل فراخ", prices: {"عادي": 115, "كونو": 135} },
+                { id: 712, name: "كريب دجاج سوبريم", prices: {"عادي": 105, "كونو": 125} },
+                { id: 713, name: "كريب كوردن بلو", prices: {"عادي": 105, "كونو": 125} },
+                { id: 714, name: "كريب تشيكن رانش", prices: {"عادي": 110, "كونو": 130} },
+                { id: 715, name: "كريب زنجر على شيش", prices: {"عادي": 120, "كونو": 140} },
+                { id: 716, name: "كريب كرانشي على شاورما فراخ", prices: {"عادي": 120, "كونو": 140} },
+                { id: 717, name: "كريب مكس الحسن والحسين (فراخ)", prices: {"عادي": 125, "كونو": 145} },
+                { id: 718, name: "كريب شاورما لحمة", prices: {"عادي": 110, "كونو": 130} },
+                { id: 719, name: "كريب فاهيتا لحمة", prices: {"عادي": 115, "كونو": 135} },
+                { id: 720, name: "كريب مشكل لحوم", prices: {"عادي": 120, "كونو": 140} },
+                { id: 721, name: "كريب مفروم", prices: {"عادي": 105, "كونو": 125} },
+                { id: 722, name: "كريب سوسيس (هوت دوج)", prices: {"عادي": 105, "كونو": 125} },
+                { id: 723, name: "كريب مكس جريل", prices: {"عادي": 120, "كونو": 140} },
+                { id: 724, name: "كريب كفتة", prices: {"عادي": 110, "كونو": 130} },
+                { id: 725, name: "كريب مكس الحسن والحسين (لحم)", prices: {"عادي": 125, "كونو": 145} },
+                { id: 726, name: "كريب بطاطس", prices: {"عادي": 85, "كونو": 95} },
+                { id: 727, name: "كريب مكس جبن", prices: {"عادي": 75, "كونو": 90} },
+                { id: 728, name: "كريب مكس لحم × فراخ", prices: {"عادي": 130, "كونو": 150} }
+            ]},
+            sides: { label: "الإضافات والمشروبات", items: [
+                { id: 801, name: "مياه معدنية صغيرة", prices: {"عادي": 10} },
+                { id: 802, name: "مياه معدنية كبيرة", prices: {"عادي": 15} },
+                { id: 803, name: "كانز / راني", prices: {"عادي": 30} },
+                { id: 804, name: "لتر كولا", prices: {"عادي": 40} },
+                { id: 805, name: "باكت مخلل", prices: {"عادي": 10} },
+                { id: 806, name: "بطاطس محمرة", prices: {"عادي": 30} },
+                { id: 807, name: "بطاطس فارسكاس", prices: {"عادي": 35} },
+                { id: 808, name: "بطاطس بالجبنة", prices: {"عادي": 70} },
+                { id: 809, name: "هريسة شطة", prices: {"عادي": 20} },
+                { id: 810, name: "صوص شيدر", prices: {"عادي": 25} },
+                { id: 811, name: "صوص باربيكيو / تومية", prices: {"عادي": 25} },
+                { id: 812, name: "صوص رانش / تكساس", prices: {"عادي": 30} },
+                { id: 813, name: "صوص مايونيز", prices: {"عادي": 20} }
+            ]}
+        };
+
+        let cart = [];
+
+        // Categories Init
+        const catList = document.getElementById('categoryList');
+        Object.entries(menuData).forEach(([key, value], index) => {
+            const btn = document.createElement('div');
+            btn.className = `cat-item ${index === 0 ? 'active' : ''}`;
+            btn.innerText = value.label;
+            btn.onclick = () => {
+                document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProducts(key);
+            };
+            catList.appendChild(btn);
+        });
+
+        function renderProducts(catKey) {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = menuData[catKey].items.map(item => `
+                <div class="product-card" data-aos="fade-up">
+                    <div class="product-info">
+                        <h3 class="product-name">${item.name}</h3>
+                        <div class="price-options">
+                            ${Object.entries(item.prices).map(([size, price]) => `
+                                <div class="price-chip" onclick="addToCart('${item.name}', '${size}', ${price})">
+                                    <span>${size}</span>
+                                    <span>${price} ج</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(name, size, price) {
+            const itemID = `${name}-${size}`;
+            const found = cart.find(i => i.id === itemID);
+            if (found) { found.qty++; } 
+            else { cart.push({ id: itemID, name, size, price, qty: 1 }); }
+            showToast(`تمت إضافة ${name} للسلة`);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const subTotal = document.getElementById('subTotal');
+            const totalPrice = document.getElementById('totalPrice');
+            const deliverySelect = document.getElementById('deliveryLocation');
+            
+            const deliveryCostValue = parseInt(deliverySelect.value) || 0;
+            document.getElementById('deliveryCost').innerText = deliveryCostValue;
+
+            cartCount.innerText = cart.reduce((acc, item) => acc + item.qty, 0);
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<div style="text-align:center; padding:40px; color:#ccc;">
+                    <i class="fas fa-shopping-basket" style="font-size:3rem; margin-bottom:10px;"></i>
+                    <p>السلة فارغة حالياً</p>
+                </div>`;
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                            <span style="font-weight:900;">${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                        </div>
+                        <div class="item-details">
+                            <h4>${item.name}</h4>
+                            <p>الحجم: ${item.size}</p>
+                        </div>
+                        <div class="item-price-del">
+                            <div style="font-weight:900; color:var(--primary)">${item.price * item.qty} ج</div>
+                            <span class="delete-item" onclick="removeItem(${index})"><i class="fas fa-trash"></i></span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const itemsTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            subTotal.innerText = itemsTotal;
+            totalPrice.innerText = itemsTotal + deliveryCostValue;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById('custName').value.trim();
+            const addr = document.getElementById('custAddress').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const locSelect = document.getElementById('deliveryLocation');
+            const dCost = parseInt(locSelect.value) || 0;
+
+            if (cart.length === 0) {
+                alert("السلة فارغة، فضلاً اختر بعض الوجبات أولاً");
+                return;
+            }
+            if (!name || !addr || !phone || locSelect.value === "0") {
+                alert("يرجى إكمال جميع البيانات واختيار منطقة التوصيل لضمان وصول الطلب");
+                return;
+            }
+
+            const locationText = locSelect.options[locSelect.selectedIndex].text;
+            let orderText = `*طلب جديد - مطعم الحسن والحسين*%0A`;
+            orderText += `--------------------------%0A`;
+            orderText += `*👤 العميل:* ${name}%0A`;
+            orderText += `*📍 المنطقة:* ${locationText}%0A`;
+            orderText += `*🏠 العنوان:* ${addr}%0A`;
+            orderText += `*📱 الهاتف:* ${phone}%0A`;
+            orderText += `--------------------------%0A`;
+            orderText += `*🍕 الطلبات:*%0A`;
+            
+            cart.forEach(item => {
+                orderText += `• ${item.name} (${item.size}) x${item.qty} = ${item.price * item.qty}ج%0A`;
+            });
+
+            orderText += `--------------------------%0A`;
+            orderText += `*💰 إجمالي الأصناف:* ${document.getElementById('subTotal').innerText} ج%0A`;
+            orderText += `*🚚 مصاريف التوصيل:* ${dCost} ج%0A`;
+            orderText += `*✅ الإجمالي النهائي: ${document.getElementById('totalPrice').innerText} ج.م*`;
+            
+            window.open(`https://wa.me/201550564197?text=${orderText}`);
+        }
+
+        // Initial Render
+        renderProducts('pizza');
+
+        window.onscroll = () => {
+            const nav = document.getElementById('navbar');
+            window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+        };
+    </script>
+</body>
+</html>
