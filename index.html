@@ -591,21 +591,41 @@
             setTimeout(() => t.classList.remove('show'), 2500);
         }
 
-        function sendToWhatsApp() {
-            const name = document.getElementById('custName').value.trim();
-            const addr = document.getElementById('custAddress').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const locSelect = document.getElementById('deliveryLocation');
-            const dCost = parseInt(locSelect.value) || 0;
+       function sendToWhatsApp() {
+    const name = document.getElementById('custName').value.trim();
+    const addr = document.getElementById('custAddress').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const locSelect = document.getElementById('deliveryLocation');
+    const deliveryCostValue = parseInt(locSelect.value) || 0;
 
-            if (cart.length === 0) {
-                alert("السلة فارغة، فضلاً اختر بعض الوجبات أولاً");
-                return;
-            }
-            if (!name || !addr || !phone || locSelect.value === "0") {
-                alert("يرجى إكمال جميع البيانات واختيار منطقة التوصيل لضمان وصول الطلب");
-                return;
-            }
+    if (!name || !addr || !phone || !locSelect.value) {
+        alert("يرجى ملء جميع بيانات التوصيل قبل الإرسال!");
+        return;
+    }
+
+    if (cart.length === 0) {
+        alert("السلة فارغة، الرجاء إضافة عناصر للطلب أولاً!");
+        return;
+    }
+
+    // تحضير نص الطلب
+    let message = `طلب جديد من مطعم الحسن والحسين:\n\n`;
+    cart.forEach(item => {
+        message += `- ${item.name} (${item.size}) x ${item.qty} = ${item.price * item.qty} ج\n`;
+    });
+
+    const itemsTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const total = itemsTotal + deliveryCostValue;
+
+    message += `\nإجمالي الأصناف: ${itemsTotal} ج`;
+    message += `\nمصاريف التوصيل: ${deliveryCostValue} ج`;
+    message += `\nالإجمالي النهائي: ${total} ج\n\n`;
+    message += `الاسم: ${name}\nالعنوان: ${addr}\nرقم الهاتف: ${phone}`;
+
+    // تحويل النص لرابط WhatsApp
+    const waLink = `https://wa.me/201550564197?text=${encodeURIComponent(message)}`;
+    window.open(waLink, "_blank");
+}
 
 if (!/^01[0-9]{9}$/.test(phone)) {
     alert("يرجى إدخال رقم هاتف مصري صحيح");
