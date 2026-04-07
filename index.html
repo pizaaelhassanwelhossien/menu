@@ -316,60 +316,61 @@
     </footer>
 
     <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3><i class="fas fa-shopping-cart"></i> قائمة الطلبات</h3>
-            <i class="fas fa-times" style="cursor:pointer; font-size: 1.2rem;" onclick="toggleCart()"></i>
-        </div>
-        
-        <div class="cart-body" id="cartItems"></div>
-
-        <div class="cart-footer">
-            <div class="input-group">
-                <input type="text" id="custName" placeholder="الاسم بالكامل">
-            </div>
-            <div class="input-group">
-                <select id="deliveryLocation" onchange="updateCartUI()">
-                    <option value="" disabled selected>اختر منطقة التوصيل...</option>
-                    <option value="30">ميت فضالة (30 ج)</option>
-                    <option value="30">الغراقة (30 ج)</option>
-                    <option value="30">شنشا (30 ج)</option>
-                    <option value="30">أخطاب (30 ج)</option>
-                    <option value="30">ميت ابوالحسين (30 ج)</option>
-                    <option value="30">ميت عامل (30 ج)</option>
-                    <option value="30">دروة (30 ج)</option>
-                    <option value="30">برج النور الحمص (30 ج)</option>
-                    <option value="30">سنجيد (30 ج)</option>
-                    <option value="40">عزبة البرعي (40 ج)</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <input type="text" id="custAddress" placeholder="العنوان بالتفصيل (الشارع، العلامة المميزة)">
-            </div>
-            <div class="input-group">
-                <input type="tel" id="custPhone" placeholder="رقم الهاتف للتواصل">
-            </div>
-
-            <div class="summary-box">
-                <div class="summary-row">
-                    <span>إجمالي الأصناف:</span>
-                    <div><span id="subTotal">0</span><span> ج.م</span></div>
-                </div>
-                <div class="summary-row">
-                    <span>مصاريف التوصيل:</span>
-                    <div><span id="deliveryCost">0</span><span> ج.م</span></div>
-                </div>
-                <div class="summary-row total-row">
-                    <span>الإجمالي النهائي:</span>
-                    <div><span id="totalPrice">0</span><span> ج.م</span></div>
-                </div>
-            </div>
-
-            <button class="btn-checkout" onclick="sendToWhatsApp()">
-                إتمام الطلب (WhatsApp)
-                <i class="fab fa-whatsapp"></i>
-            </button>
-        </div>
+    <div class="cart-header" style="text-align:center; padding: 15px; border-bottom:1px solid #eee; background:#f8f8f8;">
+        <h3 style="margin:0; font-weight:900;">قائمة الطلبات</h3>
+        <i class="fas fa-times" style="position:absolute; top:15px; left:15px; cursor:pointer; font-size:1.2rem;" onclick="toggleCart()"></i>
     </div>
+
+    <div class="cart-body" id="cartItems"></div>
+
+    <div class="cart-footer">
+        <h4 style="margin-bottom:10px; font-weight:700;">معلومات التوصيل</h4>
+        <div class="input-group">
+            <input type="text" id="custName" placeholder="الاسم بالكامل">
+        </div>
+        <div class="input-group">
+            <select id="deliveryLocation" onchange="updateCartUI()">
+                <option value="" disabled selected>اختر منطقة التوصيل...</option>
+                <option value="30">ميت فضالة (30 ج)</option>
+                <option value="30">الغراقة (30 ج)</option>
+                <option value="30">شنشا (30 ج)</option>
+                <option value="30">أخطاب (30 ج)</option>
+                <option value="30">ميت ابوالحسين (30 ج)</option>
+                <option value="30">ميت عامل (30 ج)</option>
+                <option value="30">دروة (30 ج)</option>
+                <option value="30">برج النور الحمص (30 ج)</option>
+                <option value="30">سنجيد (30 ج)</option>
+                <option value="40">عزبة البرعي (40 ج)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <input type="text" id="custAddress" placeholder="العنوان بالتفصيل (الشارع، العلامة المميزة)">
+        </div>
+        <div class="input-group">
+            <input type="tel" id="custPhone" placeholder="رقم الهاتف للتواصل">
+        </div>
+
+        <div class="summary-box">
+            <div class="summary-row">
+                <span>إجمالي الأصناف:</span>
+                <div><span id="subTotal">0</span><span> ج.م</span></div>
+            </div>
+            <div class="summary-row">
+                <span>مصاريف التوصيل:</span>
+                <div><span id="deliveryCost">0</span><span> ج.م</span></div>
+            </div>
+            <div class="summary-row total-row">
+                <span>الإجمالي النهائي:</span>
+                <div><span id="totalPrice">0</span><span> ج.م</span></div>
+            </div>
+        </div>
+
+        <button class="btn-checkout" onclick="sendToWhatsApp()">
+            إتمام الطلب (WhatsApp)
+            <i class="fab fa-whatsapp"></i>
+        </button>
+    </div>
+</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
