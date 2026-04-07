@@ -549,8 +549,13 @@
             catList.appendChild(btn);
         });
 
-        function renderProducts(catKey) {
+       function renderProducts(catKey) {
             const container = document.getElementById('menuContainer');
+            
+            // 1. أولاً بنفرغ المحتوى القديم عشان نضمن إن الصفحة "تقصر" لو القسم الجديد صغير
+            container.innerHTML = ''; 
+
+            // 2. بنرسم المنتجات الجديدة
             container.innerHTML = menuData[catKey].items.map(item => `
                 <div class="product-card" data-aos="fade-up">
                     <div class="product-info">
@@ -566,6 +571,18 @@
                     </div>
                 </div>
             `).join('');
+
+            // 3. الأهم: بنخلي الصفحة تطلع لبداية قسم المنيو فوراً بعد الرسم
+            const menuStart = document.getElementById('menu-start');
+            menuStart.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+            
+            // 4. تعويض بسيط عشان الـ Navbar لو مغطية جزء
+            setTimeout(() => {
+                window.scrollBy(0, -85); 
+            }, 300); // تأخير بسيط عشان يلحق الـ Scroll الأساسي يخلص
         }
 
         function addToCart(name, size, price) {
