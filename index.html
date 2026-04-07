@@ -24,6 +24,27 @@
         --radius-sm: 12px;
         --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
+      /* Toast Notification Style */
+#toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--dark);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    z-index: 5000;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-right: 4px solid var(--secondary);
+    display: block; /* تأكد أنه موجود */
+}
+
+#toast.show {
+    transform: translateX(-50%) translateY(0);
+}
 
     /* Base Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
