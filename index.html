@@ -657,6 +657,18 @@
             t.innerText = msg; t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 2500);
         }
+window.onload = function() {
+    // بيطلع لأول الصفحة فوق خالص
+    window.scrollTo(0, 0);
+    
+    // تأكيد إضافي لو المتصفح حاول يرجع لمكانه القديم
+    setTimeout(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // لو عايزه يطلع بنعومة، أو 'auto' لو عايزه يظهر فوق فوراً
+        });
+    }, 10);
+};
 
         function sendToWhatsApp() {
             const name = document.getElementById('custName').value.trim();
