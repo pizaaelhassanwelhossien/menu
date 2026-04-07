@@ -506,7 +506,7 @@
             const found = cart.find(i => i.id === itemID);
             if (found) { found.qty++; } 
             else { cart.push({ id: itemID, name, size, price, qty: 1 }); }
-            showToast(`تمت إضافة ${name} للسلة`);
+            showToast(`تمت إضافة ${name} للقائمة الطلبات`);
             updateCartUI();
         }
 
