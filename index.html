@@ -173,166 +173,81 @@
         min-width: 80px;
         max-width: 140px;
     }
-
     .price-chip:hover { border-color: var(--primary); background: #fff5f5; }
     .price-chip span:first-child { display: block; font-size: 0.75rem; color: #666; margin-bottom: 2px; }
     .price-chip span:last-child { display: block; font-weight: 900; color: var(--primary); font-size: clamp(0.9rem, 2vw, 1.1rem); }
 
-    /* --- التعديل المطور لقائمة الطلبات (السلة) --- */
+    /* --- السلة النهائية: Sidebar للاب توب و Bottom Sheet للموبايل --- */
     .cart-sidebar {
-        position: fixed; 
-        top: 50%; 
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.9);
-        width: min(92%, 480px);
-        height: auto;
-        max-height: 85vh; 
-        background: var(--light); 
-        z-index: 3000; 
-        border-radius: 28px;
-        overflow: hidden; 
-        display: flex; 
+        position: fixed;
+        top: 0; bottom: 0; left: -100%; /* مخفية جهة اليسار */
+        width: 420px;
+        background: var(--light);
+        z-index: 3000;
+        display: flex;
         flex-direction: column;
-        opacity: 0; 
-        pointer-events: none;
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: var(--shadow-lg);
-        border: 1px solid rgba(0,0,0,0.05);
+        transition: all 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        border-right: 1px solid var(--gray-200);
     }
-    .cart-sidebar.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
-    
-    .cart-body { 
-        flex: 1; 
-        overflow-y: auto; 
-        padding: 20px;
-        scrollbar-width: thin;
-    }
+    .cart-sidebar.open { left: 0; }
+
+    .cart-header { padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gray-200); }
+    .cart-header h2 { font-size: 1.3rem; font-weight: 800; color: var(--dark); }
+
+    .cart-body { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: thin; }
     
     .cart-item {
-        display: flex; 
-        align-items: center; 
-        gap: 15px; 
-        padding: 12px;
-        background: var(--gray-100);
-        border-radius: 18px;
-        margin-bottom: 12px;
-        transition: var(--transition);
+        display: flex; align-items: center; gap: 15px; padding: 15px;
+        background: var(--gray-100); border-radius: 18px; margin-bottom: 12px;
+        transition: 0.3s; border: 1px solid transparent;
     }
-    .cart-item:hover { background: #fff; box-shadow: var(--shadow-sm); transform: translateX(-5px); }
+    .cart-item:hover { border-color: var(--secondary); background: #fff; transform: translateX(-5px); }
 
     .qty-controls {
-        display: flex; 
-        flex-direction: row; 
-        align-items: center; 
-        gap: 10px;
-        background: white; 
-        padding: 6px 12px; 
-        border-radius: 50px;
-        box-shadow: var(--shadow-sm);
+        display: flex; align-items: center; gap: 10px;
+        background: white; padding: 6px 12px; border-radius: 50px; box-shadow: var(--shadow-sm);
     }
     .qty-btn { 
-        border: none; 
-        background: var(--gray-200); 
-        color: var(--dark); 
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        font-weight: 900; 
-        cursor: pointer; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s;
+        border: none; background: var(--dark); color: white; 
+        width: 26px; height: 26px; border-radius: 50%;
+        font-weight: 900; cursor: pointer; transition: 0.3s;
+        display: flex; align-items: center; justify-content: center;
     }
-    .qty-btn:hover { background: var(--secondary); }
+    .qty-btn:hover { background: var(--primary); }
 
-    .item-details { flex: 1; }
-    .item-details h4 { font-size: 1rem; font-weight: 800; color: var(--dark); }
-    .item-details p { font-size: 0.85rem; color: #666; }
-
-    .item-price-del { text-align: left; }
+    .item-details h4 { font-size: 1rem; font-weight: 800; }
     .item-total-price { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
-    .delete-item { color: #bbb; cursor: pointer; transition: 0.3s; font-size: 0.85rem; margin-top: 4px; display: block; }
-    .delete-item:hover { color: var(--primary); }
+    .delete-item { color: #bbb; cursor: pointer; font-size: 0.85rem; margin-top: 4px; display: block; }
 
-    .cart-footer { 
-        padding: 20px 25px; 
-        background: #fdfdfd; 
-        border-top: 1px solid var(--gray-200); 
-        border-radius: 0 0 28px 28px;
-    }
-    .input-group { margin-bottom: 10px; }
-    .input-group input, .input-group select {
-        width: 100%; padding: 14px; border-radius: 12px;
-        border: 1px solid var(--gray-200); font-family: inherit; font-size: 0.95rem; font-weight: 600;
-        transition: 0.3s;
-    }
-    .input-group input:focus { border-color: var(--secondary); background: #fffdf7; }
-
-    .summary-box { 
-        background: var(--dark); 
-        color: white; 
-        padding: 20px; 
-        border-radius: 22px; 
-        margin-top: 15px; 
-    }
-    .summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem; opacity: 0.8; }
-    .total-row { 
-        border-top: 1px solid rgba(255,255,255,0.1); 
-        padding-top: 12px; 
-        margin-top: 12px; 
-        font-weight: 900; 
-        font-size: 1.4rem; 
-        color: var(--secondary); 
-        opacity: 1;
-    }
+    .cart-footer { padding: 20px 25px; background: #fdfdfd; border-top: 1px solid var(--gray-200); }
+    
+    .summary-box { background: var(--dark); color: white; padding: 20px; border-radius: 22px; }
+    .total-row { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; margin-top: 12px; font-weight: 900; font-size: 1.4rem; color: var(--secondary); }
 
     .btn-checkout {
-        width: 100%; 
-        padding: 18px; 
-        background: #25d366; 
-        color: white;
-        border: none; 
-        border-radius: 20px; 
-        font-weight: 800;
-        font-size: 1.15rem; 
-        cursor: pointer; 
-        display: flex; 
-        align-items: center;
-        justify-content: center; 
-        gap: 12px; 
-        margin-top: 15px; 
-        transition: 0.4s;
+        width: 100%; padding: 18px; background: #25d366; color: white;
+        border: none; border-radius: 20px; font-weight: 800; font-size: 1.15rem;
+        cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 15px; transition: 0.4s;
     }
-    .btn-checkout:hover { background: #1eb954; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2); }
+    .btn-checkout:hover { background: #1eb954; transform: translateY(-3px); }
 
     /* Overlay */
-    .overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5); z-index: 2500; display: none; backdrop-filter: blur(8px);
-    }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2500; display: none; backdrop-filter: blur(8px); }
     .overlay.show { display: block; }
 
     /* Footer */
     .main-footer { background: var(--dark); color: white; padding: 60px 0 30px; text-align: center; }
-    .social-links { display: flex; justify-content: center; gap: 25px; margin: 25px 0; }
-    .social-links a { color: white; font-size: 1.6rem; transition: 0.3s; }
-    .social-links a:hover { color: var(--secondary); transform: translateY(-3px); }
 
-    /* Responsive Logic for Mobile */
+    /* Responsive: Mobile Styles */
     @media (max-width: 768px) {
+        .cart-sidebar {
+            width: 100%; left: 0; top: 100%; bottom: auto; height: 85vh;
+            border-radius: 30px 30px 0 0; border-right: none;
+        }
+        .cart-sidebar.open { top: 15%; }
         .hero-grid { grid-template-columns: 1fr; text-align: center; }
         .hero-image-container { order: -1; }
-        .hero-text h1 { margin-top: 20px; }
-        .cart-sidebar { width: 95%; max-height: 90vh; }
-        .cart-item { flex-wrap: wrap; }
-        .item-details { width: 100%; order: -1; }
-        .qty-controls { margin-top: 5px; }
-    }
-
-    @media (hover: none) {
-        .product-card:hover { transform: none; }
-        .cta-btn:hover { transform: none; }
     }
 </style>
 </head>
