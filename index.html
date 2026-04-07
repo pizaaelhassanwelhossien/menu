@@ -155,15 +155,33 @@
     .product-info { padding: clamp(12px, 3vw, 20px); text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
     .product-name { font-size: clamp(1rem, 2.5vw, 1.3rem); font-weight: 800; margin-bottom: 15px; color: var(--dark); }
     
-    .price-options { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(6px, 2vw, 10px); }
-    .price-chip {
-        background: var(--gray-100); padding: clamp(6px, 2vw, 10px); border-radius: var(--radius-sm);
-        text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid transparent;
-    }
-    .price-chip:hover { border-color: var(--primary); background: #fff5f5; }
-    .price-chip span:first-child { display: block; font-size: 0.75rem; color: #666; margin-bottom: 2px; }
-    .price-chip span:last-child { display: block; font-weight: 900; color: var(--primary); font-size: clamp(0.9rem, 2vw, 1.1rem); }
+    /* تحسين عرض خيارات الأسعار */
+        .price-options { 
+            display: flex; 
+            justify-content: center; /* يوسط العناصر لو عددها قليل */
+            gap: 10px; 
+            flex-wrap: wrap; /* عشان لو الموبايل صغير جداً ينزلوا تحت بعض بدل ما يخرجوا بره */
+        }
 
+        .price-chip {
+            background: var(--gray-100); 
+            padding: 10px; 
+            border-radius: var(--radius-sm);
+            text-align: center; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            border: 1px solid transparent;
+            /* هذا السطر يضمن أن الاختيار الواحد يأخذ مساحة مناسبة ولا يتمدد بشكل قبيح */
+            flex: 1; 
+            min-width: 80px; 
+            max-width: 150px; 
+        }
+
+        /* لمسة احترافية: لو مفيش غير اختيار واحد فقط، اجعل الخط أو المساحة أوضح قليلاً */
+        .price-options:has(> :last-child:first-child) .price-chip {
+            max-width: 200px; /* كبر العرض شوية لو هو الوحيد */
+            background: var(--gray-100);
+        }
     /* Cart Sidebar - CENTERED VERSION */
     .cart-sidebar {
         position: fixed; top: 50%; left: 50%;
