@@ -29,23 +29,24 @@
     position: fixed;
     bottom: 20px;
     left: 50%;
-    transform: translateX(-50%) translateY(100px);
+    transform: translateX(-50%) translateY(150%); /* يبدأ خارج الشاشة من الأسفل */
     background: var(--dark);
     color: white;
     padding: 12px 25px;
     border-radius: 50px;
     font-weight: 600;
     z-index: 5000;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     border-right: 4px solid var(--secondary);
-    display: block; /* تأكد أنه موجود */
+    opacity: 0;
+    white-space: nowrap;
 }
 
 #toast.show {
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0); /* يرتفع للأعلى */
+    opacity: 1;
 }
-
     /* Base Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
     
@@ -666,11 +667,16 @@
             document.getElementById('overlay').classList.toggle('show');
         }
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg; t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
-        }
+      function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.innerText = message;
+    toast.classList.add('show');
+
+    // إخفاء التوست تلقائياً بعد 3 ثواني
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
 window.onload = function() {
     // بيطلع لأول الصفحة فوق خالص
     window.scrollTo(0, 0);
