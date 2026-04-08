@@ -707,7 +707,6 @@ if (!/^01[0-9]{9}$/.test(phone)) {
     return;
 }
             const locationText = locSelect.options[locSelect.selectedIndex].text;
-                        const notes = document.getElementById('orderNotes').value.trim();
             let orderText = `*طلب جديد - مطعم الحسن والحسين*%0A`;
             orderText += `--------------------------%0A`;
             orderText += `*👤 العميل:* ${name}%0A`;
@@ -720,9 +719,7 @@ if (!/^01[0-9]{9}$/.test(phone)) {
             cart.forEach(item => {
                 orderText += `• ${item.name} (${item.size}) x${item.qty} = ${item.price * item.qty}ج%0A`;
             });
-                       if (notes) {
-    orderText += `%0A*📝 ملاحظات:* ${notes}%0A`;
-}
+
             orderText += `--------------------------%0A`;
             orderText += `*💰 إجمالي الأصناف:* ${document.getElementById('subTotal').innerText} ج%0A`;
             orderText += `*🚚 مصاريف التوصيل:* ${dCost} ج%0A`;
